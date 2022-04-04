@@ -11,4 +11,10 @@
         android:label="@string/title_questions"
         tools:layout="@layout/fragment_questions" />
 
+    <fragment
+        android:id="@+id/navigation_result"
+        android:name="com.cesarmauri.personalitytest.ui.fragments.ResultFragment"
+        android:label="fragment_result"
+        tools:layout="@layout/fragment_result" />
+
 </navigation>

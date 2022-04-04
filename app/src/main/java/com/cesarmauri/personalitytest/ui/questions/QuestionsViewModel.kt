@@ -1,8 +1,10 @@
 package com.cesarmauri.personalitytest.ui.questions
 
 import androidx.lifecycle.*
+import com.cesarmauri.personalitytest.domain.commands.NavigationCommand
 import com.cesarmauri.personalitytest.domain.model.QuestionSet
 import com.cesarmauri.personalitytest.domain.repository.QuestionSetRepository
+import com.cesarmauri.personalitytest.ui.util.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,6 +27,7 @@ class QuestionsViewModel
     private val _canSubmit = MutableLiveData<Boolean>().apply { value = false }
     private val _isExtrovert = MutableLiveData<Boolean>()
     private val _score = MutableLiveData<Int>()
+    private val _navigation = MutableLiveData<Event<NavigationCommand>>()
 
     val questionNumber: LiveData<String> = _questionNumber
     val questionStatement: LiveData<String> = _questionStatement
@@ -36,6 +39,7 @@ class QuestionsViewModel
     val canSubmit: LiveData<Boolean> = _canSubmit
     val isExtrovert: LiveData<Boolean> = _isExtrovert
     val score: MutableLiveData<Int> = _score
+    val navigation: LiveData<Event<NavigationCommand>> get() = _navigation
 
     init {
         viewModelScope.launch {
@@ -67,6 +71,10 @@ class QuestionsViewModel
     fun goPrevious() {
         if (currentQuestionNumber > 0)
             selectQuestion(--currentQuestionNumber)
+    }
+
+    fun submit() {
+        _navigation.value = Event(NavigationCommand.Result)
     }
 
     private fun selectQuestion(number: Int) {

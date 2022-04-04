@@ -86,6 +86,7 @@ class QuestionsFragment : Fragment() {
 
         binding.buttonPrevious.setOnClickListener { questionsViewModel.goPrevious() }
         binding.buttonNext.setOnClickListener { questionsViewModel.goNext() }
+        binding.buttonSubmit.setOnClickListener { questionsViewModel.submit() }
     }
 
     private fun selectAnswer(answer: TextView) {
