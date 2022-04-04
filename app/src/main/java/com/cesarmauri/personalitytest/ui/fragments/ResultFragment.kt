@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.cesarmauri.personalitytest.R
 import com.cesarmauri.personalitytest.databinding.FragmentResultBinding
-import com.cesarmauri.personalitytest.ui.questions.QuestionsViewModel
+import com.cesarmauri.personalitytest.ui.model.QuestionsViewModel
 
 class ResultFragment: Fragment() {
     private val questionsViewModel: QuestionsViewModel by activityViewModels()

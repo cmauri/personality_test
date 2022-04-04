@@ -1,4 +1,4 @@
-package com.cesarmauri.personalitytest.ui.questions
+package com.cesarmauri.personalitytest.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.cesarmauri.personalitytest.R
 import com.cesarmauri.personalitytest.databinding.FragmentQuestionsBinding
+import com.cesarmauri.personalitytest.ui.model.QuestionsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

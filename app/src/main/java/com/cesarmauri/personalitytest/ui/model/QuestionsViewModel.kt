@@ -1,4 +1,4 @@
-package com.cesarmauri.personalitytest.ui.questions
+package com.cesarmauri.personalitytest.ui.model
 
 import androidx.lifecycle.*
 import com.cesarmauri.personalitytest.domain.commands.NavigationCommand

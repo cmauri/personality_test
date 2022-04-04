@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.cesarmauri.personalitytest.databinding.ActivityMainBinding
 import com.cesarmauri.personalitytest.domain.commands.NavigationCommand
-import com.cesarmauri.personalitytest.ui.questions.QuestionsViewModel
+import com.cesarmauri.personalitytest.ui.model.QuestionsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

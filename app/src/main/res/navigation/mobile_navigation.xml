@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_questions"
-        android:name="com.cesarmauri.personalitytest.ui.questions.QuestionsFragment"
+        android:name="com.cesarmauri.personalitytest.ui.fragments.QuestionsFragment"
         android:label="@string/title_questions"
         tools:layout="@layout/fragment_questions" />
 
