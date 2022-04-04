@@ -22,6 +22,7 @@ class QuestionsViewModel
     private val _hasNextQuestion = MutableLiveData<Boolean>().apply { value = false }
     private val _canGoNext = MutableLiveData<Boolean>().apply { value = false }
     private val _selectedAnswer = MutableLiveData<Int>().apply { value = -1 }
+    private val _canSubmit = MutableLiveData<Boolean>().apply { value = false }
 
     val questionNumber: LiveData<String> = _questionNumber
     val questionStatement: LiveData<String> = _questionStatement
@@ -30,6 +31,7 @@ class QuestionsViewModel
     val hasNextQuestion: LiveData<Boolean> = _hasNextQuestion
     val canGoNext: LiveData<Boolean> = _canGoNext
     val selectedAnswer: LiveData<Int> = _selectedAnswer
+    val canSubmit: LiveData<Boolean> = _canSubmit
 
     init {
         viewModelScope.launch {
@@ -43,6 +45,7 @@ class QuestionsViewModel
         _selectedAnswer.value = i
         answerNumbers[currentQuestionNumber] = i
         _canGoNext.value = true
+        _canSubmit.value = areAllSelected()
     }
 
     fun goNext() {
@@ -69,4 +72,6 @@ class QuestionsViewModel
         _selectedAnswer.value = answerNumbers[number]
         _canGoNext.value = answerNumbers[number] != -1
     }
+
+    private fun areAllSelected(): Boolean = !answerNumbers.contains(-1)
 }

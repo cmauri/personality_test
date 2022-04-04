@@ -73,6 +73,10 @@ class QuestionsFragment : Fragment() {
                 else unSelectAnswer(answer)
             }
         }
+
+        questionsViewModel.canSubmit.observe(viewLifecycleOwner) {
+            binding.buttonSubmit.visibility = if (it) View.VISIBLE else View.GONE
+        }
     }
 
     private fun setListener(binding: FragmentQuestionsBinding) {
