@@ -7,4 +7,7 @@
     <string name="title_you_are_extrovert">You are extrovert</string>
     <string name="title_you_are_introvert">You are introvert</string>
     <string name="result_your_score">Your score is %d</string>
+    <string name="title_welcome">Welcome to the Personality Test</string>
+    <string name="start_button">Start</string>
+    <string name="start_subtitle">Discover whether you are introvert or extrovert by just answering a few questions</string>
 </resources>

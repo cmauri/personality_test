@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_questions">
+    app:startDestination="@id/navigation_splash">
 
     <fragment
         android:id="@+id/navigation_questions"
@@ -16,5 +16,24 @@
         android:name="com.cesarmauri.personalitytest.ui.fragments.ResultFragment"
         android:label="fragment_result"
         tools:layout="@layout/fragment_result" />
+
+    <fragment
+        android:id="@+id/navigation_splash"
+        android:name="com.cesarmauri.personalitytest.ui.fragments.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_startFragment"
+            app:destination="@id/navigation_start"
+            app:exitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/navigation_splash"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_start"
+        android:name="com.cesarmauri.personalitytest.ui.fragments.StartFragment"
+        android:label="fragment_start"
+        tools:layout="@layout/fragment_start" />
 
 </navigation>

@@ -11,7 +11,7 @@ import com.cesarmauri.personalitytest.databinding.FragmentResultBinding
 import com.cesarmauri.personalitytest.ui.model.QuestionsViewModel
 
 class ResultFragment: Fragment() {
-    private val questionsViewModel: QuestionsViewModel by activityViewModels()
+    private val viewModel: QuestionsViewModel by activityViewModels()
     private var _binding: FragmentResultBinding? = null
 
     override fun onCreateView(
@@ -24,7 +24,7 @@ class ResultFragment: Fragment() {
             _binding = binding
             val root: View = binding.root
 
-            questionsViewModel.isExtrovert.observe(viewLifecycleOwner) { isExtrovert ->
+            viewModel.isExtrovert.observe(viewLifecycleOwner) { isExtrovert ->
                 if (isExtrovert) {
                     binding.resultTitle.setText(R.string.title_you_are_extrovert)
                     binding.imageExtrovert.visibility = View.VISIBLE
@@ -37,7 +37,7 @@ class ResultFragment: Fragment() {
                 }
             }
 
-            questionsViewModel.score.observe(viewLifecycleOwner) { score ->
+            viewModel.score.observe(viewLifecycleOwner) { score ->
                 binding.resultScore.text = getString(R.string.result_your_score, score)
             }
 
