@@ -12,70 +12,61 @@ class QuestionsViewModel
 @Inject constructor(private val questionSetRepository: QuestionSetRepository) : ViewModel() {
 
     private lateinit var questionSet: QuestionSet
-    private var currentQuestion = 0
+    private lateinit var answerNumbers: IntArray
 
+    private var currentQuestionNumber = -1
     private val _questionNumber = MutableLiveData<String>()
     private val _questionStatement = MutableLiveData<String>()
-
-    private val _answer1 = MutableLiveData<String>().apply {
-        value = "This is the first answer"
-    }
-
-    private val _answer2 = MutableLiveData<String>().apply {
-        value = "This is the second answer"
-    }
-
-    private val _answer3 = MutableLiveData<String>().apply {
-        value = "This is the third answer"
-    }
-
-    private val _answer4 = MutableLiveData<String>().apply {
-        value = "This is the fourth answer"
-    }
-
-    private val _hasPreviousQuestion = MutableLiveData<Boolean>().apply {
-        value = false
-    }
-
-    private val _hasNextQuestion = MutableLiveData<Boolean>().apply {
-        value = true
-    }
-
-    private val _canGoNext = MutableLiveData<Boolean>().apply {
-        value = false
-    }
-
-    private val _selectedAnswer = MutableLiveData<Int>().apply {
-        value = 0
-    }
+    private val _answers = MutableLiveData<List<String>>()
+    private val _hasPreviousQuestion = MutableLiveData<Boolean>().apply { value = false }
+    private val _hasNextQuestion = MutableLiveData<Boolean>().apply { value = false }
+    private val _canGoNext = MutableLiveData<Boolean>().apply { value = false }
+    private val _selectedAnswer = MutableLiveData<Int>().apply { value = -1 }
 
     val questionNumber: LiveData<String> = _questionNumber
     val questionStatement: LiveData<String> = _questionStatement
-    val answer1: LiveData<String> = _answer1
-    val answer2: LiveData<String> = _answer2
-    val answer3: LiveData<String> = _answer3
-    val answer4: LiveData<String> = _answer4
+    val answers: LiveData<List<String>> = _answers
     val hasPreviousQuestion: LiveData<Boolean> = _hasPreviousQuestion
     val hasNextQuestion: LiveData<Boolean> = _hasNextQuestion
     val canGoNext: LiveData<Boolean> = _canGoNext
     val selectedAnswer: LiveData<Int> = _selectedAnswer
-    fun updateSelectedAnswer(i: Int) {
-        _selectedAnswer.value = i
-        _canGoNext.value = true
-    }
 
     init {
         viewModelScope.launch {
             questionSet = questionSetRepository.get()
-
-            selectQuestion(1)
+            answerNumbers = IntArray(questionSet.questions.size) { -1 }
+            selectQuestion(0)
         }
+   }
+
+    fun updateSelectedAnswer(i: Int) {
+        _selectedAnswer.value = i
+        answerNumbers[currentQuestionNumber] = i
+        _canGoNext.value = true
     }
 
-    private fun selectQuestion(questionNumber: Int) {
-        currentQuestion = questionNumber
-        _questionNumber.value = "Question $currentQuestion of ${questionSet.questions.size}"
-        _questionStatement.value = questionSet.questions[questionNumber-1].statement
+    fun goNext() {
+        if (currentQuestionNumber < questionSet.questions.size-1)
+            selectQuestion(++currentQuestionNumber)
     }
 
+    fun goPrevious() {
+        if (currentQuestionNumber > 0)
+            selectQuestion(--currentQuestionNumber)
+    }
+
+    private fun selectQuestion(number: Int) {
+        currentQuestionNumber = number
+
+        val question = questionSet.questions[number]
+        val totalQuestions = questionSet.questions.size
+
+        _questionNumber.value = "Question ${number+1} of $totalQuestions"
+        _questionStatement.value = question.statement
+        _answers.value = question.answers.map { it.text }
+        _hasPreviousQuestion.value = number > 0
+        _hasNextQuestion.value = number < totalQuestions - 1
+        _selectedAnswer.value = answerNumbers[number]
+        _canGoNext.value = answerNumbers[number] != -1
+    }
 }
