@@ -1,19 +1,21 @@
 package com.cesarmauri.personalitytest.ui.questions
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import com.cesarmauri.personalitytest.domain.model.QuestionSet
+import com.cesarmauri.personalitytest.domain.repository.QuestionSetRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class QuestionsViewModel : ViewModel() {
+@HiltViewModel
+class QuestionsViewModel
+@Inject constructor(private val questionSetRepository: QuestionSetRepository) : ViewModel() {
 
-    private val _questionNumber = MutableLiveData<String>().apply {
-        value = "Question 1 of 10"
-    }
+    private lateinit var questionSet: QuestionSet
+    private var currentQuestion = 0
 
-    private val _questionStatement = MutableLiveData<String>().apply {
-        value = "This is the question statament. Lorem fistrum hasta luego Lucas papaar papaar " +
-                "hasta luego Lucas apetecan benemeritaar quietooor."
-    }
+    private val _questionNumber = MutableLiveData<String>()
+    private val _questionStatement = MutableLiveData<String>()
 
     private val _answer1 = MutableLiveData<String>().apply {
         value = "This is the first answer"
@@ -61,4 +63,19 @@ class QuestionsViewModel : ViewModel() {
         _selectedAnswer.value = i
         _canGoNext.value = true
     }
+
+    init {
+        viewModelScope.launch {
+            questionSet = questionSetRepository.get()
+
+            selectQuestion(1)
+        }
+    }
+
+    private fun selectQuestion(questionNumber: Int) {
+        currentQuestion = questionNumber
+        _questionNumber.value = "Question $currentQuestion of ${questionSet.questions.size}"
+        _questionStatement.value = questionSet.questions[questionNumber-1].statement
+    }
+
 }

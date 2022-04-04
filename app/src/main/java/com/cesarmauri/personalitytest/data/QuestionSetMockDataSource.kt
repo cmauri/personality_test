@@ -7,8 +7,9 @@ import com.cesarmauri.personalitytest.domain.repository.QuestionSetRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class QuestionSetMockDataSource : QuestionSetRepository {
+class QuestionSetMockDataSource @Inject constructor(): QuestionSetRepository {
     override suspend fun get(): QuestionSet = withContext(Dispatchers.IO) {
         // simulate time to get a network response
         delay(500)

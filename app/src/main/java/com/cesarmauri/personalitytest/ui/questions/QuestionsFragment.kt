@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.cesarmauri.personalitytest.R
 import com.cesarmauri.personalitytest.databinding.FragmentQuestionsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class QuestionsFragment : Fragment() {
-
-    private lateinit var questionsViewModel: QuestionsViewModel
+    private val questionsViewModel: QuestionsViewModel by viewModels()
     private var _binding: FragmentQuestionsBinding? = null
 
     override fun onCreateView(
@@ -21,8 +22,6 @@ class QuestionsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        questionsViewModel =
-            ViewModelProvider(this).get(QuestionsViewModel::class.java)
 
         FragmentQuestionsBinding.inflate(inflater, container, false).let { binding ->
             _binding = binding
@@ -36,48 +35,48 @@ class QuestionsFragment : Fragment() {
     }
 
     private fun setObservers(binding: FragmentQuestionsBinding) {
-        questionsViewModel.questionNumber.observe(viewLifecycleOwner, {
+        questionsViewModel.questionNumber.observe(viewLifecycleOwner) {
             binding.questionNumber.text = it
-        })
+        }
 
-        questionsViewModel.questionStatement.observe(viewLifecycleOwner, {
+        questionsViewModel.questionStatement.observe(viewLifecycleOwner) {
             binding.questionStatement.text = it
-        })
+        }
 
-        questionsViewModel.answer1.observe(viewLifecycleOwner, {
+        questionsViewModel.answer1.observe(viewLifecycleOwner) {
             binding.answer1.text = "A: $it"
-        })
+        }
 
-        questionsViewModel.answer2.observe(viewLifecycleOwner, {
+        questionsViewModel.answer2.observe(viewLifecycleOwner) {
             binding.answer2.text = "B: $it"
-        })
+        }
 
-        questionsViewModel.answer3.observe(viewLifecycleOwner, {
+        questionsViewModel.answer3.observe(viewLifecycleOwner) {
             binding.answer3.text = "C: $it"
-        })
+        }
 
-        questionsViewModel.answer4.observe(viewLifecycleOwner, {
+        questionsViewModel.answer4.observe(viewLifecycleOwner) {
             binding.answer4.text = "D: $it"
-        })
+        }
 
-        questionsViewModel.hasPreviousQuestion.observe(viewLifecycleOwner, {
+        questionsViewModel.hasPreviousQuestion.observe(viewLifecycleOwner) {
             binding.buttonPrevious.visibility = if (it) View.VISIBLE else View.GONE
-        })
+        }
 
-        questionsViewModel.hasNextQuestion.observe(viewLifecycleOwner, {
+        questionsViewModel.hasNextQuestion.observe(viewLifecycleOwner) {
             binding.buttonNext.visibility = if (it) View.VISIBLE else View.GONE
-        })
+        }
 
-        questionsViewModel.canGoNext.observe(viewLifecycleOwner, {
+        questionsViewModel.canGoNext.observe(viewLifecycleOwner) {
             binding.buttonNext.isEnabled = it
-        })
+        }
 
-        questionsViewModel.selectedAnswer.observe(viewLifecycleOwner, {
+        questionsViewModel.selectedAnswer.observe(viewLifecycleOwner) {
             for ((i, answer) in answersAsArray(binding).withIndex()) {
                 if (i == it - 1) selectAnswer(answer)
                 else unSelectAnswer(answer)
             }
-        })
+        }
     }
 
     private fun setListener(binding: FragmentQuestionsBinding) {
