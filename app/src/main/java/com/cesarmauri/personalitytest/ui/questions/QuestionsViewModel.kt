@@ -23,6 +23,8 @@ class QuestionsViewModel
     private val _canGoNext = MutableLiveData<Boolean>().apply { value = false }
     private val _selectedAnswer = MutableLiveData<Int>().apply { value = -1 }
     private val _canSubmit = MutableLiveData<Boolean>().apply { value = false }
+    private val _isExtrovert = MutableLiveData<Boolean>()
+    private val _score = MutableLiveData<Int>()
 
     val questionNumber: LiveData<String> = _questionNumber
     val questionStatement: LiveData<String> = _questionStatement
@@ -32,6 +34,8 @@ class QuestionsViewModel
     val canGoNext: LiveData<Boolean> = _canGoNext
     val selectedAnswer: LiveData<Int> = _selectedAnswer
     val canSubmit: LiveData<Boolean> = _canSubmit
+    val isExtrovert: LiveData<Boolean> = _isExtrovert
+    val score: MutableLiveData<Int> = _score
 
     init {
         viewModelScope.launch {
@@ -45,7 +49,14 @@ class QuestionsViewModel
         _selectedAnswer.value = i
         answerNumbers[currentQuestionNumber] = i
         _canGoNext.value = true
-        _canSubmit.value = areAllSelected()
+        val canSubmit = areAllSelected()
+        if (canSubmit) {
+            _canSubmit.value = true
+            questionSet.computeScore(answerNumbers.asList()).let { score ->
+                _score.value = score
+                _isExtrovert.value = questionSet.isExtrovert(score)
+            }
+        }
     }
 
     fun goNext() {

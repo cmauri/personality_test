@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.cesarmauri.personalitytest.R
 import com.cesarmauri.personalitytest.databinding.FragmentQuestionsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class QuestionsFragment : Fragment() {
-    private val questionsViewModel: QuestionsViewModel by viewModels()
+    private val questionsViewModel: QuestionsViewModel by activityViewModels()
     private var _binding: FragmentQuestionsBinding? = null
 
     override fun onCreateView(
