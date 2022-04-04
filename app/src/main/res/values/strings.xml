@@ -4,4 +4,7 @@
     <string name="previous_question">Previous question</string>
     <string name="next_question">Next question</string>
     <string name="submit_answers">Submit answers</string>
+    <string name="title_you_are_extrovert">You are extrovert</string>
+    <string name="title_you_are_introvert">You are introvet</string>
+    <string name="result_your_score">Your score is %d</string>
 </resources>
